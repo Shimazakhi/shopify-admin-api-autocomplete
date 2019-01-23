@@ -24,7 +24,21 @@ class ShopifyCustomerSimpleTransformer extends TransformerAbstract
         return [
             'id' => (int) $customer->id,
             'full_name' => (string) $customer->first_name . ' ' . $customer->last_name,
-            'phone' => (string) $customer->default_address->phone,
+            'phone' => (string) $this->getCustomerPhone($customer),
         ];
+    }
+
+    /**
+     * Get Customer Phone
+     *
+     * @param $customer
+     * @return null
+     */
+    private function getCustomerPhone($customer)
+    {
+        if(isset($customer->default_address)) {
+            return $customer->default_address->phone;
+        }
+        return null;
     }
 }
